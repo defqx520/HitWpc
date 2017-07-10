@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/offline_down"
+        android:title="离线地图"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/settings"
+        android:title="设置"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/voicetest"
+        android:title="语音测试"
+        app:showAsAction="never"/>
+    <item android:id="@+id/about_us"
+        android:title="关于"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+     
+</menu>

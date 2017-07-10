@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="cn.edu.hit.ftcl.wearablepc.GDMap.mapview.MapActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/safe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="报平安"/>
+        <Button
+            android:id="@+id/askhelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="请支援"/>
+        <ImageView
+            android:id="@+id/redflag"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:src="@drawable/redflag"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/redstart"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:src="@drawable/redstart"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"/>
+
+        <ImageView
+            android:id="@+id/takecare"
+            android:layout_width="80px"
+            android:layout_height="80px"
+            android:src="@drawable/takecare"
+            android:layout_marginLeft="10dp"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.amap.api.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp">
+        </com.amap.api.maps.MapView>
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/redflag"-->
+                <!--android:layout_width="80px"-->
+                <!--android:layout_height="80px"-->
+                <!--android:src="@drawable/redflag"-->
+                <!--android:layout_alignParentTop="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="50dp"/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/redstart"-->
+                <!--android:layout_width="80px"-->
+                <!--android:layout_height="80px"-->
+                <!--android:src="@drawable/redstart"-->
+                <!--android:layout_below="@id/redflag"-->
+                <!--android:layout_alignLeft="@id/redflag"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="5dp"/>-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/takecare"-->
+                <!--android:layout_width="80px"-->
+                <!--android:layout_height="80px"-->
+                <!--android:src="@drawable/takecare"-->
+                <!--android:layout_below="@id/redstart"-->
+                <!--android:layout_alignLeft="@id/redstart"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="5dp"/>-->
+            <!--<ImageView-->
+                <!--android:id="@+id/markerdel"-->
+                <!--android:layout_width="80px"-->
+                <!--android:layout_height="80px"-->
+                <!--android:src="@drawable/markerdelete"-->
+                <!--android:layout_below="@id/takecare"-->
+                <!--android:layout_alignLeft="@id/takecare"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginTop="5dp"/>-->
+        <!--</RelativeLayout>-->
+    </RelativeLayout>
+
+</LinearLayout>

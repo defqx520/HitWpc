@@ -1,0 +1,10 @@
+#BNF+IAT 1.0 UTF-8;
+!grammar call;
+!slot <soft>;
+!slot <operate>;
+
+!start <Command>;
+<Command>:[<operate>]<soft>;
+
+<soft>:地图!id(101)|感知!id(102)|通信!id(103)|无线!id(104);
+<operate>:打开|启动;

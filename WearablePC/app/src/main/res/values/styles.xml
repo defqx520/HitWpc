@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!-- android:windowBackground换窗口默认背景-->
+    <!-- android:windowFrame设置Dialog的windowFrame框为无（去掉白色边框）-->
+    <!-- android:windowIsFloating是否浮现在activity之上-->
+    <!-- android:windowIsTranslucent是否半透明-->
+    <!-- android:backgroundDimEnabled背景是否模糊显示-->
+    <style name="AudioDialog" parent="@android:style/Theme.Dialog"><!--自定义对话框风格-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+</resources>

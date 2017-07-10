@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--音频列表项-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <LinearLayout
+        android:id="@+id/left_layout"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_gravity="left">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon_image_left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/nav_icon"/>
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_left"
+            android:layout_gravity="left">
+
+            <View
+                android:id="@+id/id_voice_left"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/adj_left"/>
+
+            <TextView
+                android:id="@+id/id_text_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="5dp"
+                android:textColor="#fff"
+                android:text="default"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/id_recoder_time_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="00-00 00:00"
+            android:layout_marginRight="3dp"
+            android:textColor="#ff777777"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/right_layout"
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="right">
+
+        <TextView
+            android:id="@+id/id_recoder_time_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="00-00 00:00"
+            android:layout_marginRight="3dp"
+            android:textColor="#ff777777"
+            />
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="@drawable/message_right">
+
+            <View
+                android:id="@+id/id_voice_right"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/adj"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"/>
+
+            <TextView
+                android:id="@+id/id_text_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="10dp"
+                android:textColor="#3c3f41"
+                android:text="default"/>
+
+            <ImageView
+                android:id="@+id/id_image_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:adjustViewBounds="true" />
+
+        </RelativeLayout>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/icon_image_right"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon"
+            android:layout_gravity="end" />
+    </LinearLayout>
+
+</LinearLayout>
