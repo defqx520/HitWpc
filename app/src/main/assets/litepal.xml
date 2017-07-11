@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <litepal>
+        <dbname value="HitWearable"></dbname>
+
+        <version value="2"></version>
+
+    <list>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.Communication.Msg"/>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.Communication.Parameter"/>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.GDMap.mapview.GpsInfo"/>
+    </list>
+</litepal>
