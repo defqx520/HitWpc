@@ -54,24 +54,22 @@
         <!-- &lt;!&ndash; 请填写应用实际的SECRET_KEY &ndash;&gt; -->
         <!-- <meta-data android:name="com.baidu.speech.SECRET_KEY" android:value="vseKtoFBpErdNZsptUOEUYUXrLDrDfkY"/> -->
 
-        <activity android:name=".MyGridView.IndexActivity">
+        <activity android:name=".Security.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MyGridView.IndexActivity" />
         <activity android:name=".GDMap.mapview.MapActivity" />
         <activity android:name=".GDMap.offlinemap.OfflineMapActivity" />
-
         <activity
             android:name=".Communication.VoiceActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".Communication.SettingsActivity"
-            android:label="@string/title_activity_voice_settings">
-        </activity>
+            android:label="@string/title_activity_voice_settings" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -96,7 +94,15 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name=".VoiceControl.VoiceControlActivity"></activity>
+        <activity android:name=".VoiceControl.VoiceControlActivity" />
+        <activity android:name=".Secret.SecretActivity"
+            android:label="条密"/>
+        <activity android:name=".Secret.ExpressionListActivity"
+            android:label="常用短语"/>
+        <activity android:name=".Secret.ExpressionEditActivity"
+            android:label="编辑常用短语"/>
+        <activity android:name=".Secret.ExpressionAddActivity"
+            android:label="新建常用短语"></activity>
     </application>
 
 </manifest>

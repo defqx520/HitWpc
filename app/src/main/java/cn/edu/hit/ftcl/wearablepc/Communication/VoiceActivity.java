@@ -37,6 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import cn.edu.hit.ftcl.wearablepc.Network.NetworkSpeedUtil;
+import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
 
 public class VoiceActivity extends AppCompatActivity {
@@ -59,7 +61,6 @@ public class VoiceActivity extends AppCompatActivity {
     private EditText mEditText;
 
     private MsgAdapter mAdapter;
-    private NetworkUtil networkUtil;
 
     private IntentFilter intentFilter;
     private LocalReceiver localReceiver;
@@ -249,7 +250,7 @@ public class VoiceActivity extends AppCompatActivity {
                     String targetIP = targetIPList.get(0).getValue();
                     List<Parameter> targetPortList = DataSupport.where("name = ?", "target_text_port").find(Parameter.class);
                     String targetTextPort = targetPortList.get(0).getValue();//27777
-                    networkUtil.sendTextByDatagram(textContent, targetIP, Integer.parseInt(targetTextPort));
+                    NetworkUtil.sendTextByDatagram(textContent, targetIP, Integer.parseInt(targetTextPort));
 
                     mDatas.add(msg);
                     //view更新
@@ -261,9 +262,6 @@ public class VoiceActivity extends AppCompatActivity {
             }
         });
 
-        //NetworkUtil对象初始化
-        networkUtil = new NetworkUtil();
-
         //录音完成后回调
         mRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
             public void onFinish(long seconds, String filePath) {
@@ -273,7 +271,7 @@ public class VoiceActivity extends AppCompatActivity {
                 //发送语音到接收端
                 List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
                 String localPort = localPortList.get(0).getValue();//28888
-                networkUtil.sendFileBySocket(Integer.parseInt(localPort), filePath);
+                NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), filePath);
 
                 mDatas.add(msg);
                 //view更新数据
@@ -339,7 +337,7 @@ public class VoiceActivity extends AppCompatActivity {
                     //发送图片到接收端
                     List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
                     String localPort = localPortList.get(0).getValue();//28888
-                    networkUtil.sendFileBySocket(Integer.parseInt(localPort), outputImage.toString());
+                    NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), outputImage.toString());
 
                     mDatas.add(msg);
                     //view更新数据
@@ -357,7 +355,7 @@ public class VoiceActivity extends AppCompatActivity {
                     //发送视频到接收端
                     List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
                     String localPort = localPortList.get(0).getValue();//28888
-                    networkUtil.sendFileBySocket(Integer.parseInt(localPort), outputVideo.toString());
+                    NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), outputVideo.toString());
 
                     mDatas.add(msg);
                     //view更新数据

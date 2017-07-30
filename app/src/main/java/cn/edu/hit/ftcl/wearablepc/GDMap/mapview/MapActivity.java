@@ -33,13 +33,12 @@ import java.util.List;
 import java.util.Map;
 
 
+import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Communication.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.Communication.Parameter;
 
 
 public class MapActivity extends AppCompatActivity implements AMapLocationListener {
-    private NetworkUtil networkUtil;
 
     private double myLatitude = -1, myLongitude = -1;
 
@@ -65,7 +64,6 @@ public class MapActivity extends AppCompatActivity implements AMapLocationListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_main);
 
-        networkUtil = new NetworkUtil();
 
         try {
             InitMap(savedInstanceState);      //初始化地图 包括定位
@@ -238,7 +236,7 @@ public class MapActivity extends AppCompatActivity implements AMapLocationListen
         List<Parameter> targetPortList = DataSupport.where("name = ?", "target_file_port").find(Parameter.class);
         String targetPort = targetPortList.get(0).getValue();//29999
         System.out.println("****************"+targetIP + "  "+targetPort);
-        networkUtil.receiveGpsInfo(targetIP, Integer.parseInt(targetPort));
+        NetworkUtil.receiveGpsInfo(targetIP, Integer.parseInt(targetPort));
 
         List<GpsInfo> mGpsDatas = new ArrayList<>();
         mGpsDatas = DataSupport.findAll(GpsInfo.class);

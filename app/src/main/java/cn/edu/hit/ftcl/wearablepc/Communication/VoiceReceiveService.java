@@ -12,16 +12,12 @@ import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
+import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
+
 /**
  * 接收语音消息服务
  */
 public class VoiceReceiveService extends Service {
-
-    NetworkUtil networkUtil;
-
-    public VoiceReceiveService() {
-        networkUtil = new NetworkUtil();
-    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -36,12 +32,12 @@ public class VoiceReceiveService extends Service {
         List<Parameter> targetPortList = DataSupport.where("name = ?", "target_file_port").find(Parameter.class);
         String targetPort = targetPortList.get(0).getValue();//29999
         //接收文件
-        networkUtil.receiveFileBySocket(targetIP, Integer.parseInt(targetPort), Environment.getExternalStorageDirectory() + "/HitWearable/voice");
+        NetworkUtil.receiveFileBySocket(targetIP, Integer.parseInt(targetPort), Environment.getExternalStorageDirectory() + "/HitWearable/voice");
 
         //接收文本消息
         List<Parameter> localPortList = DataSupport.where("name = ?", "local_text_port").find(Parameter.class);
         String textLocalPort = localPortList.get(0).getValue();//26666
-        networkUtil.receiveTextByDatagram(Integer.parseInt(textLocalPort));
+        NetworkUtil.receiveTextByDatagram(Integer.parseInt(textLocalPort));
 
         //定时任务：每秒接收一次
         AlarmManager manager = (AlarmManager)getSystemService(ALARM_SERVICE);

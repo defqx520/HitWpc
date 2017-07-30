@@ -25,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Communication.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.Communication.Parameter;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FTPUtil.FTP;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FTPUtil.GetFilesUtils;
@@ -49,7 +49,6 @@ public class DownloadPlayActivity extends AppCompatActivity implements View.OnCl
 
     private GetFilesUtils GFU;
     private List<Map<String,Object>> fileListInDownloadMonitorVideo;
-    NetworkUtil networkUtil = new NetworkUtil();
     private FTP ftp;
 
     private boolean isDownload;
@@ -95,7 +94,7 @@ public class DownloadPlayActivity extends AppCompatActivity implements View.OnCl
                 List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
                 String localPort = localPortList.get(0).getValue();//28888
                 Toast.makeText(getApplicationContext(), "正在传输，请勿退出。", Toast.LENGTH_SHORT).show();
-                networkUtil.sendFileBySocket(Integer.parseInt(localPort), getExternalStorageDirectory().toString()+"/HitWearable/downloadMonitorVideo/"+displayFileNameString);
+                NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), getExternalStorageDirectory().toString()+"/HitWearable/downloadMonitorVideo/"+displayFileNameString);
                 Toast.makeText(getApplicationContext(), "正在传输，请勿退出。", Toast.LENGTH_SHORT).show();
             default:break;
         }
