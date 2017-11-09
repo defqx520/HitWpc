@@ -19,6 +19,8 @@ public class Msg extends DataSupport implements Serializable{
     public static final int CATAGORY_VIDEO = 3;
 
     private  int id;
+    private int sender;
+    private int receiver;
     private String path;//文件路径
     private long time;//消息产生的时间
     private int type;//发送or接收
@@ -39,6 +41,15 @@ public class Msg extends DataSupport implements Serializable{
         this.catagory = catagory;
     }
 
+    public Msg(int sender, int receiver, String path, long time, int type, int catagory) {
+        this.sender = sender;
+        this.receiver = receiver;
+        this.path = path;
+        this.time = time;
+        this.type = type;
+        this.catagory = catagory;
+    }
+
     public int getId(){
         return this.id;
     }
@@ -52,4 +63,40 @@ public class Msg extends DataSupport implements Serializable{
         return this.path;
     }
     public int getCatagory(){ return this.catagory;}
+
+    public int getSender() {
+        return sender;
+    }
+
+    public void setSender(int sender) {
+        this.sender = sender;
+    }
+
+    public int getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(int receiver) {
+        this.receiver = receiver;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public void setCatagory(int catagory) {
+        this.catagory = catagory;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

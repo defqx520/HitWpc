@@ -96,13 +96,20 @@
 
         <activity android:name=".VoiceControl.VoiceControlActivity" />
         <activity android:name=".Secret.SecretActivity"
-            android:label="条密"/>
+            android:label="@string/title_activity_secret"/>
         <activity android:name=".Secret.ExpressionListActivity"
-            android:label="常用短语"/>
+            android:label="@string/title_activity_expression_list"/>
         <activity android:name=".Secret.ExpressionEditActivity"
-            android:label="编辑常用短语"/>
+            android:label="@string/title_activity_expression_edit"/>
         <activity android:name=".Secret.ExpressionAddActivity"
-            android:label="新建常用短语"></activity>
+            android:label="@string/title_activity_expression_add"/>
+
+        <activity android:name=".Network.UserIPListActivity"
+            android:label="@string/title_activity_user_ip_list"/>
+        <activity android:name=".Network.UserIPAddActivity"
+            android:label="@string/title_activity_user_ip_add"/>
+        <activity android:name=".Network.UserIPEditActivity"
+            android:label="@string/title_activity_user_ip_edit"/>
     </application>
 
 </manifest>

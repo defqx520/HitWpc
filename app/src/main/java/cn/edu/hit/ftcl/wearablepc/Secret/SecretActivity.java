@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -42,6 +43,9 @@ public class SecretActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.secret_activity_secret);
+        //设置ToolBar
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_secret);
+        setSupportActionBar(toolbar);
 
         //聊天消息数据初始化
         initMsgAndExpression();
@@ -64,7 +68,7 @@ public class SecretActivity extends AppCompatActivity {
         mListView = (ListView)findViewById(R.id.id_list_expression);
         mListView.setAdapter(mAdapterList);
 
-        //点击事件
+        //ListView点击事件
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -75,6 +79,14 @@ public class SecretActivity extends AppCompatActivity {
                 }else{
                     mEditText.setText(clicked);
                 }
+            }
+        });
+
+        //发送按钮点击事件
+        mButtonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

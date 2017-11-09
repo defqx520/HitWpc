@@ -14,6 +14,7 @@ import org.litepal.crud.DataSupport;
 
 import cn.edu.hit.ftcl.wearablepc.GDMap.mapview.MapActivity;
 import cn.edu.hit.ftcl.wearablepc.GDMap.offlinemap.OfflineMapActivity;
+import cn.edu.hit.ftcl.wearablepc.Network.UserIPListActivity;
 import cn.edu.hit.ftcl.wearablepc.R;
 import cn.edu.hit.ftcl.wearablepc.Secret.SecretActivity;
 import cn.edu.hit.ftcl.wearablepc.Sensor.SensorActivity;
@@ -26,8 +27,8 @@ import cn.edu.hit.ftcl.wearablepc.WifiCamera.FtpFileListActivity;
 public class IndexActivity extends AppCompatActivity {
     MyGridLayout grid;
     int[] srcs = { R.drawable.actions_booktag, R.drawable.actions_about, R.drawable.actions_comment,
-            R.drawable.actions_account, R.drawable.actions_message};
-    String titles[] = { "地图", "感知", "通信", "无线", "条密"};
+            R.drawable.actions_account, R.drawable.actions_message, R.drawable.actions_account,};
+    String titles[] = { "地图", "感知", "通信", "无线", "条密", "小组"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +76,10 @@ public class IndexActivity extends AppCompatActivity {
                     case 4:
                         Intent intent4 = new Intent(IndexActivity.this, SecretActivity.class);
                         startActivity(intent4);
+                        break;
+                    case 5:
+                        Intent intent5 = new Intent(IndexActivity.this, UserIPListActivity.class);
+                        startActivity(intent5);
                         break;
                 }
             }

@@ -1,9 +1,9 @@
-package cn.edu.hit.ftcl.wearablepc.Secret;
+package cn.edu.hit.ftcl.wearablepc.Network;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,15 +21,19 @@ import java.util.List;
 
 import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
+import cn.edu.hit.ftcl.wearablepc.Secret.Expression;
+import cn.edu.hit.ftcl.wearablepc.Secret.ExpressionAddActivity;
+import cn.edu.hit.ftcl.wearablepc.Secret.ExpressionEditActivity;
 
-public class ExpressionListActivity extends AppCompatActivity {
+public class UserIPListActivity extends AppCompatActivity {
+    private static final String TAG = UserIPListActivity.class.getSimpleName();
 
     private static final int REQUEST_EDIT = 1;
     private static final int REQUEST_ADD = 2;
 
-    private ExpressionAdapter mAdapter;
+    private UserIPAdapter mAdapter;
 
-    private List<Expression> mDataExpressions = new ArrayList<>();
+    private List<UserIPInfo> mData = new ArrayList<>();
 
     private ListView mListView;
 
@@ -39,16 +42,16 @@ public class ExpressionListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.secret_activity_expression_list);
+        setContentView(R.layout.network_activity_userip_list);
+
+        mData = DataSupport.findAll(UserIPInfo.class);
         //设置ToolBar
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_expression_list);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_userip_list);
         setSupportActionBar(toolbar);
 
-        mDataExpressions = DataSupport.findAll(Expression.class);
-
         //ListView
-        mAdapter = new ExpressionAdapter(ExpressionListActivity.this, R.layout.secret_item_expression, mDataExpressions);
-        mListView = (ListView)findViewById(R.id.id_list_expressions);
+        mAdapter = new UserIPAdapter(UserIPListActivity.this, R.layout.network_item_userip, mData);
+        mListView = (ListView)findViewById(R.id.id_list_user_ip);
         mListView.setAdapter(mAdapter);
         //Button
         mButton = (Button) findViewById(R.id.id_btn_plus);
@@ -57,9 +60,9 @@ public class ExpressionListActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Expression clicked = mDataExpressions.get(position);
-                Intent intent = new Intent(ExpressionListActivity.this, ExpressionEditActivity.class);
-                intent.putExtra("expression_id", clicked.getId());
+                UserIPInfo clicked = mData.get(position);
+                Intent intent = new Intent(UserIPListActivity.this, UserIPEditActivity.class);
+                intent.putExtra("user_id", clicked.getId());
                 intent.putExtra("position", position);
                 startActivityForResult(intent, REQUEST_EDIT);
             }
@@ -67,73 +70,85 @@ public class ExpressionListActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ExpressionListActivity.this, ExpressionAddActivity.class);
+                Intent intent = new Intent(UserIPListActivity.this, UserIPAddActivity.class);
                 startActivityForResult(intent, REQUEST_ADD);
             }
         });
     }
 
 
-    //    @Override
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode){
             case REQUEST_EDIT:
                 if(resultCode == RESULT_OK){
-                    LogUtil.d("ExpressionListActivity", "REQUEST_EDIT");
+                    LogUtil.d(TAG, "REQUEST_EDIT");
                     String result = data.getStringExtra("result");
                     int pos = data.getIntExtra("position", -1);
-                    String content = data.getStringExtra("content");
+                    String ip = data.getStringExtra("ip");
+                    int port = data.getIntExtra("port", -1);
                     if(result.equals("delete")){
-                        mDataExpressions.remove(pos);
+                        mData.remove(pos);
                         mAdapter.notifyDataSetChanged();
                     }else if(result.equals("edit")){
-                        mDataExpressions.get(pos).setContent(content);
+                        mData.get(pos).setIp(ip);
+                        mData.get(pos).setPort(port);
                         mAdapter.notifyDataSetChanged();
                     }
                 }
                 break;
             case REQUEST_ADD:
                 if(resultCode == RESULT_OK){
-                    LogUtil.d("ExpressionListActivity", "REQUEST_ADD");
+                    LogUtil.d(TAG, "REQUEST_ADD");
                     int id = data.getIntExtra("id", 0);
-                    String content = data.getStringExtra("content");
-                    Expression expression = new Expression();
-                    expression.setId(id);
-                    expression.setContent(content);
-                    mDataExpressions.add(expression);
+                    String username = data.getStringExtra("username");
+                    String ip = data.getStringExtra("ip");
+                    int port = data.getIntExtra("port", -1);
+                    UserIPInfo userIPInfo = new UserIPInfo();
+                    userIPInfo.setId(id);
+                    userIPInfo.setUsername(username);
+                    userIPInfo.setIp(ip);
+                    userIPInfo.setPort(port);
+                    mData.add(userIPInfo);
                     mAdapter.notifyDataSetChanged();
                 }
         }
     }
 
-    public class ExpressionAdapter extends ArrayAdapter<Expression>{
+    public class UserIPAdapter extends ArrayAdapter<UserIPInfo>{
         private int resourceId;
 
-        public ExpressionAdapter(Context context, int resource, List<Expression> objects) {
+        public UserIPAdapter(Context context, int resource, List<UserIPInfo> objects) {
             super(context, resource, objects);
             resourceId = resource;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            Expression expression = getItem(position);
+            UserIPInfo userIPInfo = getItem(position);
             View view;
             ViewHolder viewHolder;
             if(convertView == null){
                 view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
                 viewHolder = new ViewHolder();
-                viewHolder.content = (TextView)view.findViewById(R.id.id_content);
+                viewHolder.username = (TextView)view.findViewById(R.id.id_username);
+                viewHolder.ip = (TextView)view.findViewById(R.id.id_ip);
+                viewHolder.port = (TextView)view.findViewById(R.id.id_port);
                 view.setTag(viewHolder);
             }else{
                 view = convertView;
                 viewHolder = (ViewHolder)view.getTag();
             }
-            viewHolder.content.setText(expression.getContent());
+            viewHolder.username.setText(userIPInfo.getUsername());
+            viewHolder.ip.setText(userIPInfo.getIp());
+            viewHolder.port.setText(String.valueOf(userIPInfo.getPort()));
             return view;
         }
 
         class ViewHolder{
-            TextView content;
+            TextView username;
+            TextView ip;
+            TextView port;
         }
     }
 }

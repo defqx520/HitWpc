@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#d8e0e8">
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_expression_list"
+        android:id="@+id/toolbar_userip_list"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -14,7 +14,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <ListView
-        android:id="@+id/id_list_expressions"
+        android:id="@+id/id_list_user_ip"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="9"

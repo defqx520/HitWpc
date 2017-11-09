@@ -216,10 +216,7 @@ public class NetworkUtil {
      */
     public static boolean validateIdentity(String username, String password){
         //TODO:验证身份代码实现
-        if(username.equals("admin"))
-            return true;
-        else
-            return false;
+        return true;
     }
 
     /**

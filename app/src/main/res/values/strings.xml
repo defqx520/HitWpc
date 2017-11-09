@@ -12,6 +12,15 @@
     <string name="local_text_port">本机文本接收端口</string>
     <string name="title_activity_voice_settings">设置</string>
 
+    <string name="title_activity_secret">条密</string>
+    <string name="title_activity_expression_list">常用短语</string>
+    <string name="title_activity_expression_edit">编辑常用短语</string>
+    <string name="title_activity_expression_add">新建常用短语</string>
+
+    <string name="title_activity_user_ip_list">小组成员信息</string>
+    <string name="title_activity_user_ip_add">添加小组成员</string>
+    <string name="title_activity_user_ip_edit">修改小组成员</string>
+
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
