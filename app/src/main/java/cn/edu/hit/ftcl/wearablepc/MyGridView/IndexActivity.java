@@ -17,6 +17,7 @@ import cn.edu.hit.ftcl.wearablepc.GDMap.offlinemap.OfflineMapActivity;
 import cn.edu.hit.ftcl.wearablepc.Network.UserIPListActivity;
 import cn.edu.hit.ftcl.wearablepc.R;
 import cn.edu.hit.ftcl.wearablepc.Secret.SecretActivity;
+import cn.edu.hit.ftcl.wearablepc.Secret.SecretListActivity;
 import cn.edu.hit.ftcl.wearablepc.Sensor.SensorActivity;
 import cn.edu.hit.ftcl.wearablepc.VoiceControl.VoiceControlActivity;
 import cn.edu.hit.ftcl.wearablepc.Communication.Parameter;
@@ -74,7 +75,7 @@ public class IndexActivity extends AppCompatActivity {
                         startActivity(intent3);
                         break;
                     case 4:
-                        Intent intent4 = new Intent(IndexActivity.this, SecretActivity.class);
+                        Intent intent4 = new Intent(IndexActivity.this, SecretListActivity.class);
                         startActivity(intent4);
                         break;
                     case 5:

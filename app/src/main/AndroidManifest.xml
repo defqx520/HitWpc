@@ -95,21 +95,31 @@
             android:exported="true" />
 
         <activity android:name=".VoiceControl.VoiceControlActivity" />
-        <activity android:name=".Secret.SecretActivity"
-            android:label="@string/title_activity_secret"/>
-        <activity android:name=".Secret.ExpressionListActivity"
-            android:label="@string/title_activity_expression_list"/>
-        <activity android:name=".Secret.ExpressionEditActivity"
-            android:label="@string/title_activity_expression_edit"/>
-        <activity android:name=".Secret.ExpressionAddActivity"
-            android:label="@string/title_activity_expression_add"/>
-
-        <activity android:name=".Network.UserIPListActivity"
-            android:label="@string/title_activity_user_ip_list"/>
-        <activity android:name=".Network.UserIPAddActivity"
-            android:label="@string/title_activity_user_ip_add"/>
-        <activity android:name=".Network.UserIPEditActivity"
-            android:label="@string/title_activity_user_ip_edit"/>
+        <activity android:name=".Secret.SecretActivity" />
+        <activity
+            android:name=".Secret.ExpressionListActivity"
+            android:label="@string/title_activity_expression_list" />
+        <activity
+            android:name=".Secret.ExpressionEditActivity"
+            android:label="@string/title_activity_expression_edit" />
+        <activity
+            android:name=".Secret.ExpressionAddActivity"
+            android:label="@string/title_activity_expression_add" />
+        <activity
+            android:name=".Network.UserIPListActivity"
+            android:label="@string/title_activity_user_ip_list" />
+        <activity
+            android:name=".Network.UserIPAddActivity"
+            android:label="@string/title_activity_user_ip_add" />
+        <activity
+            android:name=".Network.UserIPEditActivity"
+            android:label="@string/title_activity_user_ip_edit" />
+        <activity
+            android:name=".Secret.SecretListActivity"
+            android:label="@string/title_activity_secret" />
+        <activity
+            android:name=".Image.ImageManageActivity"
+            android:label="@string/title_activity_image_manage"/>
     </application>
 
 </manifest>

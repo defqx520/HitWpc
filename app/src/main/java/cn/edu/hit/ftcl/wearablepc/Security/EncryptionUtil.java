@@ -1,8 +1,13 @@
 package cn.edu.hit.ftcl.wearablepc.Security;
 
+import org.litepal.crud.DataSupport;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Network.UserIPInfo;
 
 /**
  * 加密工具类
@@ -10,6 +15,38 @@ import java.security.NoSuchAlgorithmException;
  */
 
 public class EncryptionUtil {
+    private static final String TAG = EncryptionUtil.class.getSimpleName();
+
+    /**
+     * 验证身份
+     * @param username
+     * @param password
+     */
+    public static boolean validateIdentity(String username, String password){
+        if(username.isEmpty() || password.isEmpty()){
+            return false;
+        }
+        String passwordMd5 = md5(password);
+        UserIPInfo userIPInfo = DataSupport.where("username = ?", username).findFirst(UserIPInfo.class);
+        if(userIPInfo == null){
+            if(DataSupport.where("type = ?", String.valueOf(UserIPInfo.TYPE_SELF)).findFirst(UserIPInfo.class) == null) {
+                //首次登录，创建账号
+                UserIPInfo addUser = new UserIPInfo(username, passwordMd5);
+                addUser.save();
+            }else{
+                return false;
+            }
+        }else{
+            LogUtil.d(TAG, "pwd in db:" + userIPInfo.getPassword());
+            LogUtil.d(TAG, "pwd:" + passwordMd5);
+            if(userIPInfo.getPassword().equals(passwordMd5)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        return true;
+    }
 
     //md5加密
     public static String md5(String content) {

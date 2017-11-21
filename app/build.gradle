@@ -42,4 +42,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/Sunflower.jar')
     compile 'org.litepal.android:core:1.5.1'
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
 }

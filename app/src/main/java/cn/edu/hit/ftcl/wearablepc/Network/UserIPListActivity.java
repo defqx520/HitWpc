@@ -21,9 +21,7 @@ import java.util.List;
 
 import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Secret.Expression;
-import cn.edu.hit.ftcl.wearablepc.Secret.ExpressionAddActivity;
-import cn.edu.hit.ftcl.wearablepc.Secret.ExpressionEditActivity;
+import cn.edu.hit.ftcl.wearablepc.Secret.SecretActivity;
 
 public class UserIPListActivity extends AppCompatActivity {
     private static final String TAG = UserIPListActivity.class.getSimpleName();
@@ -56,15 +54,27 @@ public class UserIPListActivity extends AppCompatActivity {
         //Button
         mButton = (Button) findViewById(R.id.id_btn_plus);
 
-        //点击事件
+        //点击事件:向该成员发送条密
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                UserIPInfo clicked = mData.get(position);
+                Intent intent = new Intent(UserIPListActivity.this, SecretActivity.class);
+                intent.putExtra("user_id", clicked.getId());
+                intent.putExtra("username", clicked.getUsername());
+                startActivity(intent);
+            }
+        });
+        //长按编辑该用户IP信息
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 UserIPInfo clicked = mData.get(position);
                 Intent intent = new Intent(UserIPListActivity.this, UserIPEditActivity.class);
                 intent.putExtra("user_id", clicked.getId());
                 intent.putExtra("position", position);
                 startActivityForResult(intent, REQUEST_EDIT);
+                return true;
             }
         });
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +150,16 @@ public class UserIPListActivity extends AppCompatActivity {
                 viewHolder = (ViewHolder)view.getTag();
             }
             viewHolder.username.setText(userIPInfo.getUsername());
-            viewHolder.ip.setText(userIPInfo.getIp());
-            viewHolder.port.setText(String.valueOf(userIPInfo.getPort()));
+            if(userIPInfo.getIp() == null || userIPInfo.getIp().isEmpty()){
+                viewHolder.ip.setText("未设置");
+            }else {
+                viewHolder.ip.setText(userIPInfo.getIp());
+            }
+            if(userIPInfo.getPort() == 0) {
+                viewHolder.port.setText("未设置");
+            }else{
+                viewHolder.port.setText(String.valueOf(userIPInfo.getPort()));
+            }
             return view;
         }
 

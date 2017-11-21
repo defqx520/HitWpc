@@ -40,8 +40,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String username = mUsername.getText().toString().trim();
-                String password = EncryptionUtil.md5(mPassword.toString().trim());//加密
-                if(NetworkUtil.validateIdentity(username, password)){
+                String password = mPassword.getText().toString().trim();
+                if(EncryptionUtil.validateIdentity(username, password)){
                     //打开新的Intent并清除栈里的其他Intent
                     Intent intent = new Intent(LoginActivity.this, IndexActivity.class)
                             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

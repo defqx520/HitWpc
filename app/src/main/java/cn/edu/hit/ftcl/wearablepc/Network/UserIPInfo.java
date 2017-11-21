@@ -8,6 +8,7 @@ import org.litepal.crud.DataSupport;
  */
 
 public class UserIPInfo extends DataSupport {
+    public static final int TYPE_SELF = 0;//自己
     public static final int TYPE_COMMON = 1;//普通用户
 
     private int id;
@@ -32,6 +33,12 @@ public class UserIPInfo extends DataSupport {
         this.ip = ip;
         this.port = port;
         this.type = TYPE_COMMON;
+    }
+
+    public UserIPInfo(String username, String password){
+        this.username = username;
+        this.password = password;
+        this.type = TYPE_SELF;
     }
 
     public int getId() {

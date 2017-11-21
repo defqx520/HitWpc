@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import org.litepal.crud.DataSupport;
-
 import cn.edu.hit.ftcl.wearablepc.R;
 
 public class ExpressionAddActivity extends AppCompatActivity {

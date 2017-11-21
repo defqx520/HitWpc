@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import cn.edu.hit.ftcl.wearablepc.Image.ImageManageActivity;
 import cn.edu.hit.ftcl.wearablepc.Network.NetworkSpeedUtil;
 import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
@@ -48,17 +49,12 @@ public class VoiceActivity extends AppCompatActivity {
 
     private AudioRecorderButton mRecorderButton;
     private MyRecyclerView mRecyclerView;
-    private Button mTextButton;
     private Button mPictureButton;
-    private Button mSendButton;
-    private Button mVoiceButton;
-    private Button mVoiceButton2;
+    private Button mBackButton;
     private Button mImageButton;
     private Button mVideoButton;
-    private LinearLayout mTextLayout;
     private LinearLayout mVoiceLayout;
     private LinearLayout mPictureLayout;
-    private EditText mEditText;
 
     private MsgAdapter mAdapter;
 
@@ -109,45 +105,20 @@ public class VoiceActivity extends AppCompatActivity {
         mRecyclerView.scrollToPosition(mDatas.size() - 1);
         //Button
         mRecorderButton = (AudioRecorderButton) findViewById(R.id.id_recorder_button);
-        mTextButton = (Button)findViewById(R.id.id_button_text);
         mPictureButton = (Button)findViewById(R.id.id_button_picture);
-        mVoiceButton = (Button)findViewById(R.id.id_button_voice);
-        mVoiceButton2 = (Button)findViewById(R.id.id_button_voice_2);
-        mSendButton = (Button)findViewById(R.id.id_button_send);
+        mBackButton = (Button)findViewById(R.id.id_button_back);
         mImageButton = (Button)findViewById(R.id.id_button_image);
         mVideoButton = (Button)findViewById(R.id.id_button_video);
         //LinearLayout
-        mTextLayout = (LinearLayout)findViewById(R.id.id_layout_text);
         mVoiceLayout = (LinearLayout)findViewById(R.id.id_layout_voice);
         mPictureLayout = (LinearLayout)findViewById(R.id.id_layout_picture);
-        //TextView
-        mEditText = (EditText)findViewById(R.id.id_edittext);
-
-        //按钮点击事件
-        mTextLayout.setVisibility(View.GONE);
         mVoiceLayout.setVisibility(View.VISIBLE);
         mPictureLayout.setVisibility(View.GONE);
-        mTextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTextLayout.setVisibility(View.VISIBLE);
-                mVoiceLayout.setVisibility(View.GONE);
-                mPictureLayout.setVisibility(View.GONE);
 
-            }
-        });
-        mVoiceButton.setOnClickListener(new View.OnClickListener() {
+        //按钮点击事件
+        mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextLayout.setVisibility(View.GONE);
-                mVoiceLayout.setVisibility(View.VISIBLE);
-                mPictureLayout.setVisibility(View.GONE);
-            }
-        });
-        mVoiceButton2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mTextLayout.setVisibility(View.GONE);
                 mVoiceLayout.setVisibility(View.VISIBLE);
                 mPictureLayout.setVisibility(View.GONE);
             }
@@ -155,7 +126,6 @@ public class VoiceActivity extends AppCompatActivity {
         mPictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mTextLayout.setVisibility(View.GONE);
                 mVoiceLayout.setVisibility(View.GONE);
                 mPictureLayout.setVisibility(View.VISIBLE);
             }
@@ -234,31 +204,6 @@ public class VoiceActivity extends AppCompatActivity {
                     // start the video capture Intent
                     startActivityForResult(intent, 2);
                 }
-            }
-        });
-        mSendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //发送文字
-                String textContent = mEditText.getText().toString().trim();
-                if(textContent.length() != 0) {
-                    //数据库新增
-                    Msg msg = new Msg(textContent, Msg.TYPE_SENT, System.currentTimeMillis(), Msg.CATAGORY_TEXT);
-                    msg.save();
-                    //发送文字到接收端
-                    List<Parameter> targetIPList = DataSupport.where("name = ?", "target_ip").find(Parameter.class);
-                    String targetIP = targetIPList.get(0).getValue();
-                    List<Parameter> targetPortList = DataSupport.where("name = ?", "target_text_port").find(Parameter.class);
-                    String targetTextPort = targetPortList.get(0).getValue();//27777
-                    NetworkUtil.sendTextByDatagram(textContent, targetIP, Integer.parseInt(targetTextPort));
-
-                    mDatas.add(msg);
-                    //view更新
-                    mAdapter.notifyItemInserted(mDatas.size() - 1);
-                    //设置位置
-                    mRecyclerView.scrollToPosition(mDatas.size() - 1);
-                }
-                mEditText.setText("");
             }
         });
 
@@ -378,9 +323,9 @@ public class VoiceActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            //进入设置界面
-            case R.id.settings:
-                Intent intent = new Intent(VoiceActivity.this, SettingsActivity.class);
+            //进入图像管理界面
+            case R.id.image_manage:
+                Intent intent = new Intent(VoiceActivity.this, ImageManageActivity.class);
                 startActivity(intent);
                 break;
             //删除msg表所有数据

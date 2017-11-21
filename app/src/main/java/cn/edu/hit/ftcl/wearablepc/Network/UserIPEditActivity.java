@@ -11,7 +11,6 @@ import android.widget.EditText;
 import org.litepal.crud.DataSupport;
 
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Secret.Expression;
 
 public class UserIPEditActivity extends AppCompatActivity {
 
@@ -59,6 +58,12 @@ public class UserIPEditActivity extends AppCompatActivity {
                 userIPInfo.setIp(ip);
                 userIPInfo.setPort(port);
                 userIPInfo.update(userId);
+
+                //打开TCP接收端口
+                if(userIPInfo.getType() == UserIPInfo.TYPE_SELF) {
+                    NetworkUtil networkUtil = new NetworkUtil();
+                    networkUtil.receiveByTCP();
+                }
 
                 Intent intent = new Intent();
                 intent.putExtra("result", "edit");

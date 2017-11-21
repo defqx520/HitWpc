@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,7 +29,7 @@ public class ExpressionListActivity extends AppCompatActivity {
 
     private ExpressionAdapter mAdapter;
 
-    private List<Expression> mDataExpressions = new ArrayList<>();
+    private List<Expression> mDataExpressionBeen = new ArrayList<>();
 
     private ListView mListView;
 
@@ -44,10 +43,10 @@ public class ExpressionListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_expression_list);
         setSupportActionBar(toolbar);
 
-        mDataExpressions = DataSupport.findAll(Expression.class);
+        mDataExpressionBeen = DataSupport.findAll(Expression.class);
 
         //ListView
-        mAdapter = new ExpressionAdapter(ExpressionListActivity.this, R.layout.secret_item_expression, mDataExpressions);
+        mAdapter = new ExpressionAdapter(ExpressionListActivity.this, R.layout.secret_item_expression, mDataExpressionBeen);
         mListView = (ListView)findViewById(R.id.id_list_expressions);
         mListView.setAdapter(mAdapter);
         //Button
@@ -57,7 +56,7 @@ public class ExpressionListActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Expression clicked = mDataExpressions.get(position);
+                Expression clicked = mDataExpressionBeen.get(position);
                 Intent intent = new Intent(ExpressionListActivity.this, ExpressionEditActivity.class);
                 intent.putExtra("expression_id", clicked.getId());
                 intent.putExtra("position", position);
@@ -84,10 +83,10 @@ public class ExpressionListActivity extends AppCompatActivity {
                     int pos = data.getIntExtra("position", -1);
                     String content = data.getStringExtra("content");
                     if(result.equals("delete")){
-                        mDataExpressions.remove(pos);
+                        mDataExpressionBeen.remove(pos);
                         mAdapter.notifyDataSetChanged();
                     }else if(result.equals("edit")){
-                        mDataExpressions.get(pos).setContent(content);
+                        mDataExpressionBeen.get(pos).setContent(content);
                         mAdapter.notifyDataSetChanged();
                     }
                 }
@@ -100,7 +99,7 @@ public class ExpressionListActivity extends AppCompatActivity {
                     Expression expression = new Expression();
                     expression.setId(id);
                     expression.setContent(content);
-                    mDataExpressions.add(expression);
+                    mDataExpressionBeen.add(expression);
                     mAdapter.notifyDataSetChanged();
                 }
         }

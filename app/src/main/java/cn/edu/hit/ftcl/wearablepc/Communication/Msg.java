@@ -21,7 +21,7 @@ public class Msg extends DataSupport implements Serializable{
     private  int id;
     private int sender;
     private int receiver;
-    private String path;//文件路径
+    private String path;//如果是文件，存文件路径；如果是文本，存文本内容
     private long time;//消息产生的时间
     private int type;//发送or接收
     private int catagory;//语音or文字or图片or视频

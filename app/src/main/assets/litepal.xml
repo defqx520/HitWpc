@@ -2,7 +2,7 @@
     <litepal>
         <dbname value="HitWearable"></dbname>
 
-        <version value="4"></version>
+        <version value="5"></version>
 
     <list>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Communication.Msg"/>
@@ -10,5 +10,6 @@
         <mapping class="cn.edu.hit.ftcl.wearablepc.GDMap.mapview.GpsInfo"/>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Secret.Expression"/>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Network.UserIPInfo"/>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.Secret.Secret"/>
     </list>
 </litepal>

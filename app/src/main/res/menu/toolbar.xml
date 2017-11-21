@@ -8,9 +8,8 @@
         <!--app:showAsAction="always"/>-->
 
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_settings"
-        android:title="设置"
+        android:id="@+id/image_manage"
+        android:title="图片和视频"
         app:showAsAction="never"/>
 
 </menu>
