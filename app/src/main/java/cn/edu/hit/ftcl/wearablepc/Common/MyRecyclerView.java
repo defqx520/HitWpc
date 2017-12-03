@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

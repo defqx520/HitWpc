@@ -1,9 +1,11 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Secret;
 
 import android.media.MediaRecorder;
 
 import java.io.File;
 import java.util.UUID;
+
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 
 /**
  * 录音管理类

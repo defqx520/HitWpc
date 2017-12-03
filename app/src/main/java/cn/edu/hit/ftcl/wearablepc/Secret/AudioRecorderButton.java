@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Secret;
 
 import android.content.Context;
 import android.os.Environment;

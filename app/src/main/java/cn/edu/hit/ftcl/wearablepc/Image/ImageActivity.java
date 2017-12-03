@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Image;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -24,8 +24,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.litepal.crud.DataSupport;
@@ -37,24 +35,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import cn.edu.hit.ftcl.wearablepc.Image.ImageManageActivity;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.Msg;
+import cn.edu.hit.ftcl.wearablepc.Common.MsgAdapter;
+import cn.edu.hit.ftcl.wearablepc.Common.MyRecyclerView;
 import cn.edu.hit.ftcl.wearablepc.Network.NetworkSpeedUtil;
 import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
 
-public class VoiceActivity extends AppCompatActivity {
-    private static final String TAG = "VoiceActivity";
+public class ImageActivity extends AppCompatActivity {
+    private static final String TAG = "ImageActivity";
 
     private List<Msg> mDatas = new ArrayList<>();
 
-    private AudioRecorderButton mRecorderButton;
     private MyRecyclerView mRecyclerView;
-    private Button mPictureButton;
-    private Button mBackButton;
     private Button mImageButton;
     private Button mVideoButton;
-    private LinearLayout mVoiceLayout;
-    private LinearLayout mPictureLayout;
 
     private MsgAdapter mAdapter;
 
@@ -85,7 +81,7 @@ public class VoiceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.communication_activity_message);
+        setContentView(R.layout.image_activity_image);
         //设置ToolBar
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -97,39 +93,17 @@ public class VoiceActivity extends AppCompatActivity {
         initMsg();
 
         //RecyclerView
-        mRecyclerView = (MyRecyclerView) findViewById(R.id.msg_recycler_view);
+        mRecyclerView = (MyRecyclerView) findViewById(R.id.msg_recycler_view_image);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new MsgAdapter(mDatas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.scrollToPosition(mDatas.size() - 1);
         //Button
-        mRecorderButton = (AudioRecorderButton) findViewById(R.id.id_recorder_button);
-        mPictureButton = (Button)findViewById(R.id.id_button_picture);
-        mBackButton = (Button)findViewById(R.id.id_button_back);
         mImageButton = (Button)findViewById(R.id.id_button_image);
         mVideoButton = (Button)findViewById(R.id.id_button_video);
-        //LinearLayout
-        mVoiceLayout = (LinearLayout)findViewById(R.id.id_layout_voice);
-        mPictureLayout = (LinearLayout)findViewById(R.id.id_layout_picture);
-        mVoiceLayout.setVisibility(View.VISIBLE);
-        mPictureLayout.setVisibility(View.GONE);
 
         //按钮点击事件
-        mBackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mVoiceLayout.setVisibility(View.VISIBLE);
-                mPictureLayout.setVisibility(View.GONE);
-            }
-        });
-        mPictureButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mVoiceLayout.setVisibility(View.GONE);
-                mPictureLayout.setVisibility(View.VISIBLE);
-            }
-        });
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,7 +119,7 @@ public class VoiceActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if(Build.VERSION.SDK_INT >= 24){
-                    imageUri = FileProvider.getUriForFile(VoiceActivity.this, "com.hitwearable.fileprovider", outputImage);
+                    imageUri = FileProvider.getUriForFile(ImageActivity.this, "com.hitwearable.fileprovider", outputImage);
                 }else {
                     imageUri = Uri.fromFile(outputImage);
                 }
@@ -171,7 +145,7 @@ public class VoiceActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if(Build.VERSION.SDK_INT >= 24){
-                        imageUri = FileProvider.getUriForFile(VoiceActivity.this, "com.hitwearable.fileprovider", outputImage);
+                        imageUri = FileProvider.getUriForFile(ImageActivity.this, "com.hitwearable.fileprovider", outputImage);
                     }else {
                         imageUri = Uri.fromFile(outputImage);
                     }
@@ -192,7 +166,7 @@ public class VoiceActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if(Build.VERSION.SDK_INT >= 24){
-                        videoUri = FileProvider.getUriForFile(VoiceActivity.this, "com.hitwearable.fileprovider", outputVideo);
+                        videoUri = FileProvider.getUriForFile(ImageActivity.this, "com.hitwearable.fileprovider", outputVideo);
                     }else {
                         videoUri = Uri.fromFile(outputVideo);
                     }
@@ -207,37 +181,18 @@ public class VoiceActivity extends AppCompatActivity {
             }
         });
 
-        //录音完成后回调
-        mRecorderButton.setFinishRecorderCallBack(new AudioRecorderButton.AudioFinishRecorderCallBack() {
-            public void onFinish(long seconds, String filePath) {
-                //数据库新增
-                Msg msg = new Msg(filePath, Msg.TYPE_SENT, seconds);
-                msg.save();
-                //发送语音到接收端
-                List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
-                String localPort = localPortList.get(0).getValue();//28888
-                NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), filePath);
-
-                mDatas.add(msg);
-                //view更新数据
-                mAdapter.notifyItemInserted(mDatas.size() - 1);
-                //设置位置
-                mRecyclerView.scrollToPosition(mDatas.size() - 1);
-            }
-        });
-
         //注册广播接收器
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
         intentFilter = new IntentFilter();
-        intentFilter.addAction("com.hitwearable.LOCAL_BROADCAST");
+        intentFilter.addAction("com.hitwearable.LOCAL_BROADCAST_IMAGE");
         localReceiver = new LocalReceiver();
         localBroadcastManager.registerReceiver(localReceiver, intentFilter);
 
         //申请权限===很重要
-        if(ContextCompat.checkSelfPermission(VoiceActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(VoiceActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(VoiceActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(VoiceActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.INTERNET}, 1);
+        if(ContextCompat.checkSelfPermission(ImageActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(ImageActivity.this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(ImageActivity.this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(ImageActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.RECORD_AUDIO, Manifest.permission.INTERNET}, 1);
         }
 
         //检测网速
@@ -264,15 +219,15 @@ public class VoiceActivity extends AppCompatActivity {
      * 初始化消息列表
      */
     private void initMsg(){
-        mDatas = DataSupport.findAll(Msg.class);
+        mDatas = DataSupport.where("catagory = ? or catagory = ?", String.valueOf(Msg.CATAGORY_IMAGE), String.valueOf(Msg.CATAGORY_VIDEO)).find(Msg.class);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        LogUtil.d("VoiceActivity", "onActivityResult() has executed");
-        LogUtil.d("VoiceActivity", "requestCode is " + requestCode);
-        LogUtil.d("VoiceActivity", "resultCode is " + resultCode);
+        LogUtil.d("ImageActivity", "onActivityResult() has executed");
+        LogUtil.d("ImageActivity", "requestCode is " + requestCode);
+        LogUtil.d("ImageActivity", "resultCode is " + resultCode);
         switch (requestCode){
             case 1:
                 if (resultCode == RESULT_OK) {
@@ -280,9 +235,7 @@ public class VoiceActivity extends AppCompatActivity {
                     Msg msg = new Msg(outputImage.toString(), Msg.TYPE_SENT, System.currentTimeMillis(), Msg.CATAGORY_IMAGE);
                     msg.save();
                     //发送图片到接收端
-                    List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
-                    String localPort = localPortList.get(0).getValue();//28888
-                    NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), outputImage.toString());
+
 
                     mDatas.add(msg);
                     //view更新数据
@@ -293,14 +246,12 @@ public class VoiceActivity extends AppCompatActivity {
                 break;
             case 2:
                 if(resultCode == RESULT_OK){
-                    LogUtil.d("VoiceActivity", "RESULT_OK");
+                    LogUtil.d("ImageActivity", "RESULT_OK");
                     //数据库新增
                     Msg msg = new Msg(outputVideo.toString(), Msg.TYPE_SENT, System.currentTimeMillis(), Msg.CATAGORY_VIDEO);
                     msg.save();
                     //发送视频到接收端
-                    List<Parameter> localPortList = DataSupport.where("name = ?", "local_file_port").find(Parameter.class);
-                    String localPort = localPortList.get(0).getValue();//28888
-                    NetworkUtil.sendFileBySocket(Integer.parseInt(localPort), outputVideo.toString());
+
 
                     mDatas.add(msg);
                     //view更新数据
@@ -325,12 +276,12 @@ public class VoiceActivity extends AppCompatActivity {
         switch (item.getItemId()){
             //进入图像管理界面
             case R.id.image_manage:
-                Intent intent = new Intent(VoiceActivity.this, ImageManageActivity.class);
+                Intent intent = new Intent(ImageActivity.this, ImageManageActivity.class);
                 startActivity(intent);
                 break;
             //删除msg表所有数据
 //            case R.id.delete:
-//                AlertDialog.Builder dialog = new AlertDialog.Builder(VoiceActivity.this);
+//                AlertDialog.Builder dialog = new AlertDialog.Builder(ImageActivity.this);
 //                dialog.setTitle("警告");
 //                dialog.setMessage("消息删除后将不可恢复，您确定要删除所有消息吗？");
 //                dialog.setCancelable(false);
@@ -356,19 +307,16 @@ public class VoiceActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MediaPlayerManager.resume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        MediaPlayerManager.pause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        MediaPlayerManager.release();
         localBroadcastManager.unregisterReceiver(localReceiver);
     }
 

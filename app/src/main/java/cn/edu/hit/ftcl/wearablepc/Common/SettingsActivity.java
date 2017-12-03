@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Common;
 
 import android.content.Intent;
 import android.os.Bundle;

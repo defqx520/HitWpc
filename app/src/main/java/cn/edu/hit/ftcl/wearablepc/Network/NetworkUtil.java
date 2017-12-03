@@ -32,9 +32,11 @@ import java.net.SocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
-import cn.edu.hit.ftcl.wearablepc.Communication.Msg;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.Msg;
 import cn.edu.hit.ftcl.wearablepc.GDMap.mapview.GPSInfoList;
 import cn.edu.hit.ftcl.wearablepc.GDMap.mapview.GpsInfo;
 import cn.edu.hit.ftcl.wearablepc.MyApplication;
@@ -51,6 +53,8 @@ public class NetworkUtil {
     private final UserIPInfo self = DataSupport.where("type = ?", String.valueOf(UserIPInfo.TYPE_SELF)).findFirst(UserIPInfo.class);
     private final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
 
+    private static final Executor exec = Executors.newCachedThreadPool();//使用可缓存线程池
+
     /**
      * 接收数据
      */
@@ -66,9 +70,12 @@ public class NetworkUtil {
                     //ServerSocket
                     serverSocket = new ServerSocket(selfPort);
                     while(serverSocket != null && !serverSocket.isClosed()) {
-                        Socket socket = serverSocket.accept();
-                        LogUtil.d("NetworkUtil", "accepted...");
-                        new Thread(new ReceiveRunnable(socket)).start();
+                        while (true) {
+                            Socket socket = serverSocket.accept();
+                            LogUtil.d("NetworkUtil", "accepted...");
+                            ReceiveRunnable runnable = new ReceiveRunnable(socket);
+                            exec.execute(runnable);
+                        }
                     }
 
                     serverSocket.close();
@@ -96,7 +103,7 @@ public class NetworkUtil {
      * @param content
      */
     public void sendByTCP(final String addr, final int port, final String type, final String content){
-        new Thread(new Runnable() {
+        exec.execute(new Runnable() {
             @Override
             public void run() {
                 Socket mSocket = new Socket();
@@ -148,7 +155,7 @@ public class NetworkUtil {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
     }
 
     /**
@@ -173,16 +180,21 @@ public class NetworkUtil {
                 //数据流操作
                 DataInputStream dataInputStream = new DataInputStream(new BufferedInputStream(mSocket.getInputStream()));
 
-                Msg msg = null;
+                Msg msg = new Msg();
                 String receivedType = dataInputStream.readUTF();
                 if(receivedType.equals("text")){//接收的是文本
                     String content = dataInputStream.readUTF();
                     //msg表add
                     long current = System.currentTimeMillis();
-                    msg = new Msg(sender.getId(), self.getId(), content, current, Msg.TYPE_RECEIVED, Msg.CATAGORY_TEXT);
+                    msg.setSender(sender.getId());
+                    msg.setReceiver(self.getId());
+                    msg.setPath(content);
+                    msg.setTime(current);
+                    msg.setType(Msg.TYPE_RECEIVED);
+                    msg.setCatagory(Msg.CATAGORY_TEXT);
                     msg.save();
                     //secret表update
-                    Secret secret = DataSupport.where("user_id = ?", String.valueOf(sender)).findFirst(Secret.class);
+                    Secret secret = DataSupport.where("user_id = ?", String.valueOf(sender.getId())).findFirst(Secret.class);
                     if(secret != null){
                         secret.setContent(content);
                         secret.setTime(current);
@@ -195,6 +207,7 @@ public class NetworkUtil {
                     String fileName = dataInputStream.readUTF();
                     //后缀名不同，消息种类不同
                     String prefix=fileName.substring(fileName.lastIndexOf(".")+1);
+                    LogUtil.d(TAG, "prefix of received file: "+ prefix);
                     int catagory = 0;
                     String content = "";
                     String dirName = "";
@@ -219,8 +232,8 @@ public class NetworkUtil {
                             break;
                     }
 
-                    String savePath = new StringBuilder(Environment.getExternalStorageDirectory() + "/HitWearable").append(dirName).append("/").append(fileName).toString();
-                    DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new BufferedOutputStream(new FileOutputStream(savePath))));
+                    LogUtil.d(TAG, "savePath: " + fileName);
+                    DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new BufferedOutputStream(new FileOutputStream(fileName))));
 
                     int bufferSize = 1024;
                     byte[] buf = new byte[bufferSize];
@@ -237,26 +250,39 @@ public class NetworkUtil {
 
                     //msg表add
                     long current = System.currentTimeMillis();
-                    msg = new Msg(sender.getId(), self.getId(), savePath, current, Msg.TYPE_RECEIVED, catagory);
-                    msg.save();
+                    msg.setSender(sender.getId());
+                    msg.setReceiver(self.getId());
+                    msg.setPath(fileName);
+                    msg.setTime(current);
+                    msg.setType(Msg.TYPE_RECEIVED);
+                    msg.setCatagory(catagory);
+                    LogUtil.d(TAG, "msg add result: "+ msg.save());
                     //secret表update
-                    Secret secret = DataSupport.where("user_id = ?", String.valueOf(sender)).findFirst(Secret.class);
+                    Secret secret = DataSupport.where("user_id = ?", String.valueOf(sender.getId())).findFirst(Secret.class);
                     if(secret != null){
                         secret.setContent(content);
                         secret.setTime(current);
-                        secret.save();
+                        LogUtil.d(TAG, "secret update result: " + secret.save());
                     }else {
                         Secret addSecret = new Secret(sender.getId(), sender.getUsername(), content, current);
-                        addSecret.save();
+                        LogUtil.d(TAG, "secret add result: " + addSecret.save());
                     }
 
                     dataOutputStream.close();
                     dataOutputStream = null;
                 }
                 //通知更新UI
-                Intent intent=new Intent("com.hitwearable.LOCAL_BROADCAST");
-                intent.putExtra("msg", msg);
-                localBroadcastManager.sendBroadcast(intent);
+                if(msg.getCatagory() == Msg.CATAGORY_TEXT || msg.getCatagory() == Msg.CATAGORY_VOICE) {
+                    LogUtil.d(TAG, "broadcast to secret activity");
+                    Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_SECRET");
+                    intent.putExtra("msg", msg);
+                    localBroadcastManager.sendBroadcast(intent);
+                }else{
+                    LogUtil.d(TAG, "broadcast to image activity");
+                    Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_IMAGE");
+                    intent.putExtra("msg", msg);
+                    localBroadcastManager.sendBroadcast(intent);
+                }
 
                 LogUtil.d(TAG, "接受完毕");
 
@@ -276,6 +302,7 @@ public class NetworkUtil {
      * @param fileReceivePort 文件接收端口
      * @param filePath 文件存储路径
      */
+    @Deprecated
     public static void receiveFileBySocket(final String targetIP, final int fileReceivePort, final String filePath) {
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
         new Thread() {
@@ -326,6 +353,7 @@ public class NetworkUtil {
      * @param sendPort 文件发送端口
      * @param filePath 文件所在路径
      */
+    @Deprecated
     public static void sendFileBySocket(final int sendPort, final String filePath){
         new Thread()
         {
@@ -385,6 +413,7 @@ public class NetworkUtil {
      * 接收文本
      * @param textLocalPort 文本接收端口
      */
+    @Deprecated
     public static void receiveTextByDatagram(final int textLocalPort){
         final LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(MyApplication.getContext());
         new Thread()
@@ -421,6 +450,7 @@ public class NetworkUtil {
      * @param targetIP
      * @param textTargetPort
      */
+    @Deprecated
     public static void sendTextByDatagram(final String messageSend, final String targetIP, final int textTargetPort){
         new Thread() {
             @Override

@@ -52,17 +52,37 @@ public class SecretListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Secret clicked = mDatas.get(position);
+                //进入条密语音对话界面
                 Intent intent = new Intent(SecretListActivity.this, SecretActivity.class);
                 intent.putExtra("user_id", clicked.getUser_id());
                 intent.putExtra("username", clicked.getUsername());
                 startActivity(intent);
+                //finish：解决数据更新的问题
+                finish();
             }
         });
+        //长按事件
+//        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+//                Secret clicked = mDatas.get(position);
+//                //删除
+//                clicked.delete();
+//                //更新UI
+//                mDatas.remove(position);
+//                mAdapter.notifyDataSetChanged();
+//                return true;
+//            }
+//        });
+        //按钮点击事件
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:发广播
-
+                //进入广播通信界面
+                Intent intent = new Intent(SecretListActivity.this, GroupActivity.class);
+                startActivity(intent);
+                //finish
+                finish();
             }
         });
     }

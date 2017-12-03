@@ -13,7 +13,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 
 /**
  * Created by hzf on 2017/11/8.

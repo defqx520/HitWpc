@@ -32,7 +32,7 @@ import cn.edu.hit.ftcl.wearablepc.VoiceControl.speechUtils.*;
 
 
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Communication.VoiceActivity;
+import cn.edu.hit.ftcl.wearablepc.Image.ImageActivity;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FtpFileListActivity;
 
 public class VoiceControlActivity extends AppCompatActivity implements View.OnClickListener {
@@ -300,7 +300,7 @@ public class VoiceControlActivity extends AppCompatActivity implements View.OnCl
                         break;
                     case 103:
                         Toast.makeText(getApplicationContext(),"103",Toast.LENGTH_SHORT).show();
-                        Intent intent2 = new Intent(VoiceControlActivity.this, VoiceActivity.class);
+                        Intent intent2 = new Intent(VoiceControlActivity.this, ImageActivity.class);
                         startActivity(intent2);
                         break;
                     case 104:

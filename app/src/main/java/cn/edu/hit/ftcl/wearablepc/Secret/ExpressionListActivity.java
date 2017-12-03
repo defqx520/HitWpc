@@ -19,7 +19,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
 
 public class ExpressionListActivity extends AppCompatActivity {

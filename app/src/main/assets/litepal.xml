@@ -5,8 +5,8 @@
         <version value="5"></version>
 
     <list>
-        <mapping class="cn.edu.hit.ftcl.wearablepc.Communication.Msg"/>
-        <mapping class="cn.edu.hit.ftcl.wearablepc.Communication.Parameter"/>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.Common.Msg"/>
+        <mapping class="cn.edu.hit.ftcl.wearablepc.Common.Parameter"/>
         <mapping class="cn.edu.hit.ftcl.wearablepc.GDMap.mapview.GpsInfo"/>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Secret.Expression"/>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Network.UserIPInfo"/>

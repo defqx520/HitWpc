@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Secret;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -36,7 +36,7 @@ public class DialogManager {
        //根据指定sytle实例化Dialog
        mDialog = new Dialog(mContext, R.style.AudioDialog);
        LayoutInflater inflater = LayoutInflater.from(mContext);
-       View view = inflater.inflate(R.layout.communication_dialog_recorder, null);
+       View view = inflater.inflate(R.layout.secret_dialog_recorder, null);
        mDialog.setContentView(view);
        mIcon = (ImageView) view.findViewById(R.id.id_recorder_dialog_icon);
        mVoice = (ImageView) view.findViewById(R.id.id_recorder_dialog_voice);

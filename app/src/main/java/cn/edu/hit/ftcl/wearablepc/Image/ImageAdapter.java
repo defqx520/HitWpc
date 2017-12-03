@@ -67,10 +67,15 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder>{
             public boolean onLongClick(View v) {
                 int position = holder.getAdapterPosition();
                 Image image = imageList.get(position);
-                //delete
-                holder.time.setText("选中删除");
-                holder.time.setTextColor(Color.RED);
-                ImageManageActivity.deleteImageList.add(image.getFilepath());
+                if(!holder.time.getText().toString().equals("选中删除")) {
+                    //delete
+                    holder.time.setText("选中删除");
+                    ImageManageActivity.deleteImageList.add(image.getFilepath());
+                }else{
+                    //undelete
+                    holder.time.setText(new SimpleDateFormat("yyyy-MM-dd").format(image.getTime()));
+                    ImageManageActivity.deleteImageList.remove(image.getFilepath());
+                }
                 return true;
             }
         });

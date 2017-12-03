@@ -27,7 +27,7 @@ import java.util.Map;
 
 import cn.edu.hit.ftcl.wearablepc.Network.NetworkUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Communication.Parameter;
+import cn.edu.hit.ftcl.wearablepc.Common.Parameter;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FTPUtil.FTP;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FTPUtil.GetFilesUtils;
 

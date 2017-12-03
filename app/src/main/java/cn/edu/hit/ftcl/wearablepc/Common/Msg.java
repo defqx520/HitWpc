@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Common;
 
 import org.litepal.crud.DataSupport;
 
@@ -26,7 +26,7 @@ public class Msg extends DataSupport implements Serializable{
     private int type;//发送or接收
     private int catagory;//语音or文字or图片or视频
 
-    //不指定消息属性时，默认为语音消息
+    @Deprecated
     public Msg(String path, int type, long time){
         this.path = path;
         this.type = type;
@@ -34,11 +34,16 @@ public class Msg extends DataSupport implements Serializable{
         this.catagory = CATAGORY_VOICE;
     }
 
+    @Deprecated
     public Msg(String path, int type, long time, int catagory){
         this.path = path;
         this.type = type;
         this.time = time;
         this.catagory = catagory;
+    }
+
+    public Msg(){
+
     }
 
     public Msg(int sender, int receiver, String path, long time, int type, int catagory) {

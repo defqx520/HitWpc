@@ -10,19 +10,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.litepal.crud.DataSupport;
-
 import cn.edu.hit.ftcl.wearablepc.GDMap.mapview.MapActivity;
 import cn.edu.hit.ftcl.wearablepc.GDMap.offlinemap.OfflineMapActivity;
 import cn.edu.hit.ftcl.wearablepc.Network.UserIPListActivity;
 import cn.edu.hit.ftcl.wearablepc.R;
-import cn.edu.hit.ftcl.wearablepc.Secret.SecretActivity;
 import cn.edu.hit.ftcl.wearablepc.Secret.SecretListActivity;
 import cn.edu.hit.ftcl.wearablepc.Sensor.SensorActivity;
 import cn.edu.hit.ftcl.wearablepc.VoiceControl.VoiceControlActivity;
-import cn.edu.hit.ftcl.wearablepc.Communication.Parameter;
-import cn.edu.hit.ftcl.wearablepc.Communication.SettingsActivity;
-import cn.edu.hit.ftcl.wearablepc.Communication.VoiceActivity;
+import cn.edu.hit.ftcl.wearablepc.Common.SettingsActivity;
+import cn.edu.hit.ftcl.wearablepc.Image.ImageActivity;
 import cn.edu.hit.ftcl.wearablepc.WifiCamera.FtpFileListActivity;
 
 public class IndexActivity extends AppCompatActivity {
@@ -67,7 +63,7 @@ public class IndexActivity extends AppCompatActivity {
                         startActivity(intent1);
                         break;
                     case 2:
-                        Intent intent2 = new Intent(IndexActivity.this, VoiceActivity.class);
+                        Intent intent2 = new Intent(IndexActivity.this, ImageActivity.class);
                         startActivity(intent2);
                         break;
                     case 3:

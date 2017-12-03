@@ -1,4 +1,4 @@
-package cn.edu.hit.ftcl.wearablepc.Communication;
+package cn.edu.hit.ftcl.wearablepc.Common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +30,7 @@ import java.util.List;
 
 import cn.edu.hit.ftcl.wearablepc.MyApplication;
 import cn.edu.hit.ftcl.wearablepc.R;
+import cn.edu.hit.ftcl.wearablepc.Secret.MediaPlayerManager;
 
 /**
  * 适配器类
@@ -51,7 +52,7 @@ public class MsgAdapter extends RecyclerView.Adapter<MsgAdapter.ViewHolder>{
         if(mContext == null){
             mContext = parent.getContext();
         }
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.communication_item_voice, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.common_item_voice, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.leftLayout.setOnClickListener(new View.OnClickListener() {
             @Override

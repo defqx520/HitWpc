@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.charset.Charset;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 
 /**
  * Created by hzf on 2017/11/8.

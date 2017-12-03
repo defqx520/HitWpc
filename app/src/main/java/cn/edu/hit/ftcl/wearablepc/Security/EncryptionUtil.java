@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 import cn.edu.hit.ftcl.wearablepc.Network.UserIPInfo;
 
 /**

@@ -69,6 +69,9 @@ public class ImageManageActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         deleteImageList.clear();
+
+                        initImageList();
+                        adapter.notifyDataSetChanged();
                     }
                 });
                 dialog.show();

@@ -14,7 +14,6 @@ import android.util.Log;
 import cn.edu.hit.ftcl.wearablepc.R;
 import cn.edu.hit.ftcl.wearablepc.Sensor.model.HeartRateTable;
 import cn.edu.hit.ftcl.wearablepc.Sensor.model.HumidityTable;
-import cn.edu.hit.ftcl.wearablepc.Communication.VoiceReceiveService;
 
 import static java.lang.Thread.sleep;
 

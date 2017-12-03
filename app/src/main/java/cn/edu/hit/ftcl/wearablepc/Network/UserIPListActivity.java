@@ -19,7 +19,7 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.edu.hit.ftcl.wearablepc.Communication.LogUtil;
+import cn.edu.hit.ftcl.wearablepc.Common.LogUtil;
 import cn.edu.hit.ftcl.wearablepc.R;
 import cn.edu.hit.ftcl.wearablepc.Secret.SecretActivity;
 
@@ -59,10 +59,12 @@ public class UserIPListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 UserIPInfo clicked = mData.get(position);
-                Intent intent = new Intent(UserIPListActivity.this, SecretActivity.class);
-                intent.putExtra("user_id", clicked.getId());
-                intent.putExtra("username", clicked.getUsername());
-                startActivity(intent);
+                if(clicked.getType() != UserIPInfo.TYPE_SELF) {//当点击的用户不是自己时,进入条密语音通信界面
+                    Intent intent = new Intent(UserIPListActivity.this, SecretActivity.class);
+                    intent.putExtra("user_id", clicked.getId());
+                    intent.putExtra("username", clicked.getUsername());
+                    startActivity(intent);
+                }
             }
         });
         //长按编辑该用户IP信息
