@@ -2,7 +2,7 @@
     <litepal>
         <dbname value="HitWearable"></dbname>
 
-        <version value="5"></version>
+        <version value="10"></version>
 
     <list>
         <mapping class="cn.edu.hit.ftcl.wearablepc.Common.Msg"/>

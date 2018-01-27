@@ -6,7 +6,6 @@ package cn.edu.hit.ftcl.wearablepc.Network;
  */
 
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 
 import org.litepal.crud.DataSupport;
@@ -97,10 +96,10 @@ public class NetworkUtil {
 
     /**
      * 发送数据
-     * @param addr
-     * @param port
-     * @param type
-     * @param content
+     * @param addr 对方IP地址
+     * @param port 对方端口号
+     * @param type 数据类型{file,text...}
+     * @param content 数据内容{file:文件绝对路径,text:文本内容...}
      */
     public void sendByTCP(final String addr, final int port, final String type, final String content){
         exec.execute(new Runnable() {
@@ -145,6 +144,7 @@ public class NetworkUtil {
                     }else if(type.equals("text")){
                         dataOutputStream.flush();
                     }
+                    //TODO: 可扩展其他类型数据的发送
 
                     //关闭流和socket
                     dataOutputStream.close();
@@ -210,23 +210,19 @@ public class NetworkUtil {
                     LogUtil.d(TAG, "prefix of received file: "+ prefix);
                     int catagory = 0;
                     String content = "";
-                    String dirName = "";
                     switch(prefix){
                         case "amr":
                             catagory = Msg.CATAGORY_VOICE;
                             content = "[语音]";
-                            dirName = "/voice";
                             break;
                         case "jpg":
                             catagory = Msg.CATAGORY_IMAGE;
                             content = "[图片]";
-                            dirName = "/image";
                             break;
                         case "mp4":
                         case "avi":
                             catagory = Msg.CATAGORY_VIDEO;
                             content = "[视频]";
-                            dirName = "/video";
                             break;
                         default:
                             break;
@@ -271,18 +267,23 @@ public class NetworkUtil {
                     dataOutputStream.close();
                     dataOutputStream = null;
                 }
-                //通知更新UI
-                if(msg.getCatagory() == Msg.CATAGORY_TEXT || msg.getCatagory() == Msg.CATAGORY_VOICE) {
-                    LogUtil.d(TAG, "broadcast to secret activity");
-                    Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_SECRET");
-                    intent.putExtra("msg", msg);
-                    localBroadcastManager.sendBroadcast(intent);
-                }else{
-                    LogUtil.d(TAG, "broadcast to image activity");
-                    Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_IMAGE");
-                    intent.putExtra("msg", msg);
-                    localBroadcastManager.sendBroadcast(intent);
+                //TODO: 可扩展其他类型数据的接收
+
+                if(receivedType.equals("text") || receivedType.equals("file")) {
+                    //通知更新UI
+                    if (msg.getCatagory() == Msg.CATAGORY_TEXT || msg.getCatagory() == Msg.CATAGORY_VOICE) {
+                        LogUtil.d(TAG, "broadcast to secret activity");
+                        Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_SECRET");
+                        intent.putExtra("msg", msg);
+                        localBroadcastManager.sendBroadcast(intent);
+                    } else {
+                        LogUtil.d(TAG, "broadcast to image activity");
+                        Intent intent = new Intent("com.hitwearable.LOCAL_BROADCAST_IMAGE");
+                        intent.putExtra("msg", msg);
+                        localBroadcastManager.sendBroadcast(intent);
+                    }
                 }
+                //TODO: 可扩展其他类型数据的后续处理
 
                 LogUtil.d(TAG, "接受完毕");
 
